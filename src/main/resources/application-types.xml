@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="soap-input" format="xml">
+      <types:example format="xml" element="{http://cliente.bean.master.sigep.bsb.correios.com.br/}consultaCEP" location="correios-soap-env.xml"/>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#f561cfd6-1409-4c27-8ce2-c9ca557a154b">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="soap-input"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

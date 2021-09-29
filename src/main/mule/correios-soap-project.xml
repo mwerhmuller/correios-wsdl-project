@@ -1,0 +1,870 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit-soap="http://www.mulesoft.org/schema/mule/apikit-soap" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/apikit-soap http://www.mulesoft.org/schema/mule/apikit-soap/current/mule-apikit-soap.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/current/mule-wsc.xsd">
+    <http:listener-config name="api-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="8081"/>
+    </http:listener-config>
+    <apikit-soap:config httpStatusVarName="httpStatus" name="soapkit-config" port="AtendeClientePort" service="AtendeClienteService" wsdlLocation="Correios_AtendeCliente.wsdl"/>
+    <wsc:config name="Web_Service_Consumer_Config" doc:name="Web Service Consumer Config" doc:id="1d60c7e0-c7a8-4a5c-a91f-154af884d561" >
+		<wsc:connection wsdlLocation="api/Correios_AtendeCliente.wsdl" service="AtendeClienteService" port="AtendeClientePort" address="https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente" />
+	</wsc:config>
+	<flow name="api-main">
+        <http:listener config-ref="api-httpListenerConfig" path="/AtendeClienteService/AtendeClientePort">
+            <http:response statusCode="#[attributes.additionalTransportData.statusCode default 200]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[attributes.protocolHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[attributes.additionalTransportData.statusCode default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[attributes.protocolHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit-soap:router config-ref="soapkit-config">
+            <apikit-soap:attributes><![CDATA[#[%dw 2.0
+              output application/java
+              ---
+              {
+                  headers: attributes.headers,
+                  method: attributes.method,
+                  queryString: attributes.queryString
+            }]]]></apikit-soap:attributes>
+        </apikit-soap:router>
+    </flow>
+    <flow name="buscaServicosAdicionaisAtivos:\soapkit-config">
+		<ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [buscaServicosAdicionaisAtivos:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="fechaPlp:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [fechaPlp:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="validaPlp:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [validaPlp:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="calculaTarifaServico:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [calculaTarifaServico:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="VerificaSeTodosObjetosCancelados:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [VerificaSeTodosObjetosCancelados:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="cancelarObjeto:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [cancelarObjeto:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="pesquisarParametrosPorDescricao:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [pesquisarParametrosPorDescricao:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="atualizaPagamentoNaEntrega:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [atualizaPagamentoNaEntrega:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="obterClienteAtualizacao:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [obterClienteAtualizacao:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="verificaDisponibilidadeServico:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [verificaDisponibilidadeServico:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="fechaPlpVariosServicos:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [fechaPlpVariosServicos:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="geraDigitoVerificadorEtiquetas:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [geraDigitoVerificadorEtiquetas:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="obterEmbalagemLRS:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [obterEmbalagemLRS:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="validaEtiquetaPLP:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [validaEtiquetaPLP:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="buscaServicosValorDeclarado:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [buscaServicosValorDeclarado:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="consultaCEP:\soapkit-config" doc:id="2276c13c-2549-45f5-be4f-6fcd9f79db91">
+		<ee:transform doc:name="Transform Message" doc:id="e524d0a2-0415-43b9-855c-3f9b63548ada" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://cliente.bean.master.sigep.bsb.correios.com.br/
+---
+{
+	ns0#consultaCEP: {
+		cep: payload.body.ns0#consultaCEP.cep
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume doc:name="Consume" doc:id="25eaa9fc-b603-4b87-9498-da0bfe179112" config-ref="Web_Service_Consumer_Config" operation="consultaCEP">
+			<wsc:message >
+				<wsc:body ><![CDATA[#[%dw 2.0
+output application/xml
+---
+payload]]]></wsc:body>
+			</wsc:message>
+		</wsc:consume>
+		<ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+ns ns0 http://cliente.bean.master.sigep.bsb.correios.com.br/
+output application/java
+---
+{
+	body: {
+		ns0#consultaCEPResponse: payload.body.ns0#consultaCEPResponse
+	} write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="integrarUsuarioScol:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [integrarUsuarioScol:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="pesquisarDimensoesServico:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [pesquisarDimensoesServico:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="pesquisarEmbalagensPorServico:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [pesquisarEmbalagensPorServico:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="atualizaRemessaAgrupada:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [atualizaRemessaAgrupada:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="solicitaPLP:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [solicitaPLP:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="getStatusCartaoPostagem:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [getStatusCartaoPostagem:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="verificaModalTransporte:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [verificaModalTransporte:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="buscaDataAtual:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [buscaDataAtual:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="buscaTarifaVale:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [buscaTarifaVale:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="validarPostagemSimultanea:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [validarPostagemSimultanea:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="getStatusPLP:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [getStatusPLP:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="pesquisarServicosAdicionais:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [pesquisarServicosAdicionais:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="buscaServicosXServicosAdicionais:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [buscaServicosXServicosAdicionais:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="cancelarPedidoScol:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [cancelarPedidoScol:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="bloquearObjeto:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [bloquearObjeto:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="buscaContrato:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [buscaContrato:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="solicitaEtiquetas:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [solicitaEtiquetas:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="solicitaXmlPlp:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [solicitaXmlPlp:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="validarPostagemReversa:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [validarPostagemReversa:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="buscaCliente:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [buscaCliente:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="buscaPagamentoEntrega:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [buscaPagamentoEntrega:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="solicitarPostagemScol:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [solicitarPostagemScol:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="buscaServicos:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [buscaServicos:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="obterMensagemParametrizada:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [obterMensagemParametrizada:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="buscaOpcoes:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload>
+                    <![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [buscaOpcoes:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]>
+                </ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+</mule>
